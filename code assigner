@@ -1,0 +1,27 @@
+#codigo google app script para que busque el código de la columna F de la Hoja 2 en la columna B de la Hoja 1 y le asigne el codigo de la columna P de la Hoja 2 en la columna E de la Hoja 1. 
+En el caso de que existan código duplicados en la columna B, solo asigna el código de F al primero de los duplicados.
+
+
+
+function asignarCodigos() {
+  var hoja1 = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Hoja 1');
+  var hoja2 = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Hoja 2');
+
+  var codigosHoja1 = hoja1.getRange('B:B').getValues(); // Obtiene los valores de la columna B de Hoja1
+  var codigosHoja2 = hoja2.getRange('F:F').getValues(); // Obtiene los valores de la columna F de Hoja2
+  var codigosP = hoja2.getRange('P:P').getValues(); // Obtiene los valores de la columna P de Hoja2
+
+  for (var i = 0; i < codigosHoja2.length; i++) {
+    var codigoHoja2 = codigosHoja2[i][0];
+    var codigoP = codigosP[i][0];
+
+    for (var j = 0; j < codigosHoja1.length; j++) {
+      var codigoHoja1 = codigosHoja1[j][0];
+      
+      if (codigoHoja1 === codigoHoja2) {
+        hoja1.getRange('E' + (j + 1)).setValue(codigoP);
+        break;
+      }
+    }
+  }
+}
